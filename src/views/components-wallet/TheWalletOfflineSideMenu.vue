@@ -270,7 +270,7 @@ export default {
           icon: dashboard
         },
         {
-          title: this.$t('sendTx.send-tx'),
+          title: this.$t('sendTx.send-offline'),
           route: { name: ROUTES_WALLET.SEND_TX.NAME },
           icon: send
         }
