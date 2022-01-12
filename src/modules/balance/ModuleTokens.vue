@@ -199,7 +199,9 @@ export default {
     formatValues(item) {
       const newObj = {};
       newObj.balance = [
-        item.balancef + ' ' + item.symbol,
+        item.balancef
+          ? item.balancef + ' ' + item.symbol
+          : '0' + ' ' + item.symbol,
         '$' + item.usdBalancef ? item.usdBalancef : '0'
       ];
       newObj.usdBalance = item.usdBalance ? item.usdBalance : '0';
@@ -221,13 +223,16 @@ export default {
             method: () => {
               const obj = {
                 fromToken: item.contract,
-                toToken: '',
                 amount: item.balancef
               };
-              this.$router.push({
-                name: ROUTES_WALLET.SWAP.NAME,
-                query: obj
-              });
+              this.$router
+                .push({
+                  name: ROUTES_WALLET.SWAP.NAME,
+                  query: obj
+                })
+                .then(() => {
+                  this.$emit('trade');
+                });
             },
             btnStyle: 'outline',
             colorTheme: 'primary'

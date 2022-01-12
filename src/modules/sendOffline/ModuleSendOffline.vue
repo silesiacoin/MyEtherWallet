@@ -192,12 +192,12 @@
         />
 
         <div class="mb-3">{{ $t('sendTx.signed.scan') }}</div>
-        <qrcode-vue
+        <!-- <qrcode-vue
           class="mb-3"
           :value="signedTransaction.rawTransaction"
           :size="200"
           level="H"
-        />
+        /> -->
         <div>or</div>
         <a
           :href="jsonFile"
@@ -240,8 +240,8 @@ export default {
   components: {
     ModuleAddressBook,
     SendLowBalanceNotice,
-    AppButtonBalance,
-    QrcodeVue
+    AppButtonBalance
+    // QrcodeVue
   },
   props: {
     prefilledAmount: {

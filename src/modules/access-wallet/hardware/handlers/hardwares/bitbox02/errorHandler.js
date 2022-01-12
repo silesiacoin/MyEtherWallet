@@ -17,8 +17,13 @@ const ERRORS = {
     'bitbox02Error.bluetooth-adapter-not-available',
   'An operation that changes interface state is in progress.':
     'bitbox02Error.operation-that-changes-interface-state-in-progress',
+  'connection not open': 'bitbox02Error.connection-not-open-on-send',
   'Could not establish a connection to the BitBox02':
-    'Could not establish a connection to the BitBox02'
+    'bitbox02Error.could-not-establish-connection',
+  'InvalidStateError: The device is already open.':
+    'Device already connected. Please refresh your browser and try again!',
+  "Bitbox02 doesn't support signing a regular transaction with 0 value!":
+    "Bitbox02 doesn't support signing a regular transaction with 0 value!" // custom error for handling the value
 };
 const WARNINGS = {
   'Attestation failed': 'bitbox02Error.attestation-failed'
