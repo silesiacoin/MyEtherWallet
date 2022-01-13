@@ -112,7 +112,7 @@ import handlerAnalytics from '@/modules/analytics-opt-in/handlers/handlerAnalyti
 import WALLET_TYPES from '@/modules/access-wallet/common/walletTypes';
 
 export default {
-  name: 'TheAccessWalletLayout',
+  name: 'TheAccessWalletOfflineLayout',
   components: {
     ModuleAccessWalletHardware,
     ModuleAccessWalletSoftware,
