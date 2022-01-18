@@ -223,7 +223,6 @@
 
 <script>
 import clipboardCopy from 'clipboard-copy';
-// import QrcodeVue from 'qrcode.vue';
 import { fromWei, toBN, isHexStrict, _, toWei } from 'web3-utils';
 import { mapGetters, mapState } from 'vuex';
 import BigNumber from 'bignumber.js';
@@ -241,7 +240,6 @@ export default {
     ModuleAddressBook,
     SendLowBalanceNotice,
     AppButtonBalance
-    // QrcodeVue
   },
   props: {
     prefilledAmount: {

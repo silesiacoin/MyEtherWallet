@@ -1,6 +1,11 @@
 const offlineConfig = require('./builds/offlineConfig');
+const liveConfig = require('./builds/liveConfig');
 
 let exportObj = {};
-exportObj = offlineConfig;
+// if (process.env.BUILD === 'offline') {
+//   exportObj = offlineConfig;
+// } else {
+exportObj = liveConfig;
+// }
 
 module.exports = exportObj;
