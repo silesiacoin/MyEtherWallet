@@ -4,7 +4,7 @@ import { ROUTES_HOME } from '../configs/configRoutes';
 import { accessWalletProps, accessRouteGuard } from './helpers';
 
 export default {
-  path: '',
+  path: '/',
   component: TheDefaultView,
   props: true,
   children: [
