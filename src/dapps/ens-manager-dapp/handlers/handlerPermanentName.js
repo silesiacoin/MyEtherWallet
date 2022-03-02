@@ -158,8 +158,8 @@ export default class PermanentNameModule extends ENSManagerInterface {
 
   async getCommitmentFees() {
     try {
-      // commitment
-      const commitTxObj = { from: this.address };
+      const gasPrice = this.gasPriceByType()(this.gasPriceType());
+      const commitTxObj = { from: this.address, gasPrice: gasPrice };
       const createCommitment = await this.registrarControllerContract.methods
         .makeCommitmentWithConfig(
           this.parsedHostName,
@@ -172,7 +172,6 @@ export default class PermanentNameModule extends ENSManagerInterface {
       const gasLimit = await this.registrarControllerContract.methods
         .commit(createCommitment)
         .estimateGas(commitTxObj);
-      const gasPrice = this.gasPriceByType()(this.gasPriceType());
       return fromWei(toBN(gasPrice).mul(toBN(gasLimit)));
     } catch (e) {
       return e;
