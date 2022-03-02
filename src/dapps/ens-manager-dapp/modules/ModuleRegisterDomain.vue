@@ -32,6 +32,7 @@
           :committed="committed"
           :minimum-age="minimumAge"
           :loading-commit="loadingCommit"
+          :name-handler="nameHandler"
       /></template>
       <template #stepperContent3><complete v-if="onStep === 3" /></template>
     </mew-stepper>
@@ -70,6 +71,12 @@ export default {
         return {};
       },
       type: Function
+    },
+    nameHandler: {
+      type: Object,
+      default: function () {
+        return {};
+      }
     },
     generateKeyPhrase: {
       default: function () {
@@ -134,7 +141,9 @@ export default {
     }
   },
   mounted() {
-    if (this.onStep == 1) this.$router.push({ name: ROUTES_WALLET.ENS_1.NAME });
+    if (this.onStep == 1) {
+      this.$router.push({ name: ROUTES_WALLET.ENS_1.NAME });
+    }
   },
   methods: {
     onRequest(val) {

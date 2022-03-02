@@ -252,6 +252,7 @@
       :checking-domain-avail="loading"
       :generate-key-phrase="generateKeyPhrase"
       :get-rent-price="getRentPrice"
+      :name-handler="nameHandler"
     />
     <!--
     =====================================================================================

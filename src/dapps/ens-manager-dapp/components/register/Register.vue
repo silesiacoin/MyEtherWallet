@@ -13,6 +13,10 @@
             : $tc('ens.commit.year', 2, { duration: duration })
         }}</span>
       </div>
+      <div class="d-flex justify-space-between">
+        <span> Estimated Transaction cost:</span>
+        <span class="font-weight-medium">{{ commitmentFee }}</span>
+      </div>
     </div>
     <div
       v-if="minimumAge || canRegister"
@@ -45,7 +49,7 @@
     </div>
     <div class="d-flex justify-center mt-6">
       <mew-button
-        :disabled="loadingCommit || ticker !== '00:00'"
+        :disabled="disableBtn"
         :title="
           canRegister
             ? $t('ens.register.name')
@@ -59,6 +63,8 @@
 </template>
 
 <script>
+import BigNumber from 'bignumber.js';
+import { mapState } from 'vuex';
 export default {
   name: 'EnsRegister',
   props: {
@@ -84,6 +90,10 @@ export default {
       },
       type: Function
     },
+    nameHandler: {
+      type: Object,
+      default: () => {}
+    },
     commit: {
       default: function () {
         return {};
@@ -95,8 +105,27 @@ export default {
     return {
       ticker: '00:00',
       timer: () => {},
-      canRegister: false
+      canRegister: false,
+      commitmentFee: '0'
     };
+  },
+  computed: {
+    ...mapState('wallet', ['balanceInETH']),
+    hasEnoughBalanceToCommit() {
+      if (BigNumber(this.commitmentFee).eq(0)) {
+        return false;
+      }
+      return BigNumber(this.balanceInETH).gt(this.commitmentFee);
+    },
+    disableBtn() {
+      if (!this.canRegister) {
+        return (
+          (this.loadingCommit || this.ticker !== '00:00') &&
+          !this.hasEnoughBalanceToCommit
+        );
+      }
+      return false;
+    }
   },
   watch: {
     minimumAge(newVal) {
@@ -131,6 +160,11 @@ export default {
         clearInterval(this.timer);
       }
     }
+  },
+  mounted() {
+    this.nameHandler.getCommitmentFees().then(res => {
+      this.commitmentFee = res;
+    });
   },
   destroyed() {
     clearInterval(this.timer);

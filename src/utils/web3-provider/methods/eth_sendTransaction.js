@@ -9,6 +9,7 @@ import BigNumber from 'bignumber.js';
 import sanitizeHex from '@/core/helpers/sanitizeHex';
 import { MAIN_TOKEN_ADDRESS } from '@/core/helpers/common';
 import { EventBus } from '@/core/plugins/eventBus';
+import { cloneDeep } from 'lodash';
 
 export default async ({ payload, store, requestManager }, res, next) => {
   if (payload.method !== 'eth_sendTransaction') return next();
@@ -28,11 +29,14 @@ export default async ({ payload, store, requestManager }, res, next) => {
     };
   }
   let currency = store.getters['external/contractToToken'](tx.to);
+  const gasPriceByTypeGetter = store.getters['global/gasPriceByType'];
+  const gasPriceType = store.state['global/gasPriceType'];
+  console.log(cloneDeep(tx));
   if (!currency)
     currency = store.getters['external/contractToToken'](MAIN_TOKEN_ADDRESS);
   tx.gasPrice = tx.gasPrice
     ? tx.gasPrice
-    : BigNumber(store.getters['global/gasPrice']).toFixed();
+    : BigNumber(gasPriceByTypeGetter(gasPriceType)).toFixed();
   const localTx = Object.assign({}, tx);
   delete localTx['gas'];
   delete localTx['nonce'];

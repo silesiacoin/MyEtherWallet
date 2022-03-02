@@ -5,11 +5,17 @@ import * as nameHashPckg from 'eth-ens-namehash';
 import { DNSRegistrar } from '@ensdomains/ens-contracts';
 import contentHash from 'content-hash';
 import EventEmitter from 'events';
+import { fromWei, sha3, toBN } from 'web3-utils';
+import { mapState, mapGetters } from 'vuex';
+import vuexStore from '@/core/store';
 const bip39 = require('bip39');
 
 export default class PermanentNameModule extends ENSManagerInterface {
   constructor(name, address, network, web3, ens, expiry) {
     super(name, address, network, web3, ens);
+    this.$store = vuexStore;
+    Object.assign(this, mapState('global', ['gasPriceType']));
+    Object.assign(this, mapGetters('global', ['gasPriceByType']));
     this.expiryTime = expiry;
     this.secretPhrase = '';
     this.expiration = null;
@@ -123,14 +129,14 @@ export default class PermanentNameModule extends ENSManagerInterface {
   }
 
   createCommitment() {
-    const utils = this.web3.utils;
-    const txObj = { from: this.address };
+    const gasPrice = this.gasPriceByType()(this.gasPriceType());
+    const txObj = { from: this.address, gasPrice: gasPrice };
     const promiEvent = new EventEmitter();
     this.registrarControllerContract.methods
       .makeCommitmentWithConfig(
         this.parsedHostName,
         this.address,
-        utils.sha3(this.secretPhrase),
+        sha3(this.secretPhrase),
         this.publicResolverAddress,
         this.address
       )
@@ -148,6 +154,29 @@ export default class PermanentNameModule extends ENSManagerInterface {
           .catch(err => promiEvent.emit('error', err));
       });
     return promiEvent;
+  }
+
+  async getCommitmentFees() {
+    try {
+      // commitment
+      const commitTxObj = { from: this.address };
+      const createCommitment = await this.registrarControllerContract.methods
+        .makeCommitmentWithConfig(
+          this.parsedHostName,
+          this.address,
+          sha3(this.secretPhrase),
+          this.publicResolverAddress,
+          this.address
+        )
+        .call();
+      const gasLimit = await this.registrarControllerContract.methods
+        .commit(createCommitment)
+        .estimateGas(commitTxObj);
+      const gasPrice = this.gasPriceByType()(this.gasPriceType());
+      return fromWei(toBN(gasPrice).mul(toBN(gasLimit)));
+    } catch (e) {
+      return e;
+    }
   }
 
   async getMinimumAge() {
@@ -229,7 +258,7 @@ export default class PermanentNameModule extends ENSManagerInterface {
   }
 
   _registerWithDuration(duration, balance) {
-    const utils = this.web3.utils;
+    const gasPrice = this.gasPriceByType()(this.gasPriceType());
     const promiEvent = new EventEmitter();
     this.getRentPrice(duration).then(rentPrice => {
       const hasBalance = new BigNumber(balance).gte(rentPrice);
@@ -243,14 +272,15 @@ export default class PermanentNameModule extends ENSManagerInterface {
         .toFixed();
       const txObj = {
         from: this.address,
-        value: withFivePercent
+        value: withFivePercent,
+        gasPrice: gasPrice
       };
       this.registrarControllerContract.methods
         .registerWithConfig(
           this.parsedHostName,
           this.address,
           this.getActualDuration(duration),
-          utils.sha3(this.secretPhrase),
+          sha3(this.secretPhrase),
           this.publicResolverAddress,
           this.address
         )
