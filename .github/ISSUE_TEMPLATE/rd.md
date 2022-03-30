@@ -1,12 +1,11 @@
 ---
-name: 'Bug'
-about: 'Bug'
-labels: Bug
-title: '[Bug]'
+name: 'R&D'
+about: 'Research and development'
+labels: r&d
+title: '[R&D]'
 ---
 ## Type
-
-Bug
+R&D
 
 ## Description
 

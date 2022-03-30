@@ -1,12 +1,12 @@
 ---
-name: 'Bug'
-about: 'Bug'
-labels: Bug
-title: '[Bug]'
+name: 'Refactor'
+about: 'Refactor'
+labels: Refactor
+title: '[Refactor]'
 ---
 ## Type
 
-Bug
+Refactor
 
 ## Description
 

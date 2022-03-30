@@ -1,12 +1,12 @@
 ---
-name: 'Bug'
-about: 'Bug'
-labels: Bug
-title: '[Bug]'
+name: 'Fix'
+about: 'Fix'
+labels: Fix
+title: '[Fix]'
 ---
 ## Type
 
-Bug
+Fix
 
 ## Description
 
