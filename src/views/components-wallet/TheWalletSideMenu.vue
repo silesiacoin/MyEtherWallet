@@ -290,7 +290,7 @@ import ModuleMoonPay from '@/modules/moon-pay/ModuleMoonPay';
 // import ThemeSwitch from '@/components/theme-switch/ThemeSwitch';
 import { EventBus } from '@/core/plugins/eventBus';
 import { mapActions, mapGetters, mapState } from 'vuex';
-import { ETH, BSC, MATIC } from '@/utils/networks/types';
+import { ETH } from '@/utils/networks/types';
 import { ROUTES_WALLET } from '@/core/configs/configRoutes';
 import handlerAnalytics from '@/modules/analytics-opt-in/handlers/handlerAnalytics.mixin';
 import dappsMeta from '@/dapps/metainfo-dapps';
@@ -326,7 +326,7 @@ export default {
         }
       ],
       routeNetworks: {
-        [ROUTES_WALLET.SWAP.NAME]: [ETH, BSC, MATIC],
+        [ROUTES_WALLET.SWAP.NAME]: [ETH],
         [ROUTES_WALLET.NFT_MANAGER.NAME]: [ETH]
       },
       ROUTES_WALLET: ROUTES_WALLET

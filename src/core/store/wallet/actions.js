@@ -39,12 +39,26 @@ const setWeb3Instance = function (
     ? url.parse(rootState.global.currentNetwork.url)
     : rootGetters['global/Networks']['ETH'][0];
   const options = {};
+
+  let parsedUrl;
+  if (hostUrl.pathname === null) {
+    parsedUrl = `${hostUrl.protocol}//${hostUrl.host}${
+    rootState.global.currentNetwork.port
+      ? ':' + rootState.global.currentNetwork.port
+      : ''
+    }`;
+  } else {
+
   // eslint-disable-next-line
-  const parsedUrl = `${hostUrl.protocol}//${hostUrl.host}${
+  parsedUrl = `${hostUrl.protocol}//${hostUrl.host}${
     rootState.global.currentNetwork.port
       ? ':' + rootState.global.currentNetwork.port
       : ''
   }${hostUrl.pathname}`;
+  }
+  console.log(JSON.stringify(hostUrl));
+  console.log(hostUrl.pathname);
+  console.log(parsedUrl);
   rootState.global.currentNetwork.username !== '' &&
   rootState.global.currentNetwork.password !== ''
     ? (options['headers'] = {

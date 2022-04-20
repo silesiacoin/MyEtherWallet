@@ -1,5 +1,5 @@
 import nodeList from '@/utils/networks';
-import { ETH, BSC, MATIC } from '@/utils/networks/types';
+import { ETH } from '@/utils/networks/types';
 import {
   getGasBasedOnType,
   getPriorityFeeBasedOnType,
@@ -66,7 +66,7 @@ const localContracts = function (state, getters) {
 
 const hasSwap = function (state, getters) {
   const name = getters.network.type.name;
-  return name === ETH.name || name === BSC.name || name === MATIC.name;
+  return name === ETH.name;
 };
 
 const swapLink = function (state, getters, rootState) {

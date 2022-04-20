@@ -1,5 +1,5 @@
 import { Toast, ERROR } from '@/modules/toast/handler/handlerToast';
-import { ETH, BSC, MATIC } from '@/utils/networks/types';
+import { ETH } from '@/utils/networks/types';
 import { MAIN_TOKEN_ADDRESS } from '@/core/helpers/common';
 import BigNumber from 'bignumber.js';
 import {
@@ -45,10 +45,7 @@ const setTokenAndEthBalance = function ({
 }) {
   commit('wallet/SET_LOADING_WALLET_INFO', true, { root: true });
   const network = rootGetters['global/network'];
-  const isTokenBalanceApiSupported =
-    network.type.name === BSC.name ||
-    network.type.name === ETH.name ||
-    network.type.name === MATIC.name;
+  const isTokenBalanceApiSupported = network.type.name === ETH.name;
   const address = rootState.wallet.address;
   const TOKEN_BALANCE_API = 'https://tokenbalance.mewapi.io';
 

@@ -165,9 +165,7 @@ export default {
       if (this.isSwapPage) {
         allNetworks = allNetworks.filter(
           item =>
-            item.name === types.ETH.name ||
-            item.name === types.BSC.name ||
-            item.name === types.MATIC.name
+            item.name === types.ETH.name
         );
       }
       if (this.searchInput && this.searchInput !== '') {

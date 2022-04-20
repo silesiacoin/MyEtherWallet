@@ -13,7 +13,7 @@ class MEWProvider {
       if (host.includes('etherscan')) {
         throw new Error('Not supported network type');
       } else if (/^http(s)?:\/\//i.test(host)) {
-        throw new Error('Not supported network type');
+        return new WSProvider(host.replace('http', 'w'), options);
       } else if (/^ws(s)?:\/\//i.test(host)) {
         return new WSProvider(host, options);
       } else if (host) {
